@@ -1,12 +1,10 @@
 package com.itechart.identities.controller.services
 
 import com.google.inject.Inject
-import com.itechart.identities.model.{AddressDatabase, EmailDatabase, PhoneNumberDatabase, User, UserIdentityDatabase}
 import com.itechart.identities.model.dao._
+import com.itechart.identities.model._
 import play.api.db.slick.DatabaseConfigProvider
-import slick.dbio.Effect
 import slick.jdbc.JdbcProfile
-import slick.sql.FixedSqlStreamingAction
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -36,4 +34,5 @@ class UsersService @Inject()(configProvider: DatabaseConfigProvider,
 //
 //    })
   }
+
 }

@@ -52,7 +52,7 @@ case class User(id: String,
                 honorificSuffix: String,
                 emails: Seq[Email],
                 addresses: Seq[Address],
-                phoneNumber: Seq[PhoneNumber])
+                phoneNumbers: Seq[PhoneNumber])
 
 object User extends ((String, String, String, String, String,
   String, String, String, String, String, String, Seq[Email], Seq[Address], Seq[PhoneNumber]) => User) {

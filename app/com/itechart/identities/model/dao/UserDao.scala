@@ -4,23 +4,19 @@ import com.google.inject.{Inject, Singleton}
 import com.itechart.identities.model.{AddressDatabase, EmailDatabase, PhoneNumberDatabase, UserIdentityDatabase}
 import play.api.db.slick.DatabaseConfigProvider
 import slick.jdbc.JdbcProfile
-import slick.lifted.TableQuery
 
 @Singleton
-class UserDao @Inject()(protected val configProvider: DatabaseConfigProvider,
-                        userIdentityDao: UserIdentityDao,
-                        emailDao: EmailDao,
-                        addressDao: AddressDao,
-                        phoneNumberDao: PhoneNumberDao,
-                       ) {
+class UserDao @Inject()(configProvider: DatabaseConfigProvider,
+                        protected val userMapping: UserMapping) {
   val profile: JdbcProfile = configProvider.get.profile
 
-  lazy val userIdentityQuery = TableQuery[userIdentityDao.UserIdentityTable]
-  lazy val emailQuery = TableQuery[emailDao.EmailTable]
-  lazy val addressQuery = TableQuery[addressDao.AddressTable]
-  lazy val phoneNumberQuery = TableQuery[phoneNumberDao.PhoneNumberTable]
+  lazy val userIdentityQuery = userMapping.userIdentityQuery
+  lazy val emailQuery = userMapping.emailQuery
+  lazy val addressQuery = userMapping.addressQuery
+  lazy val phoneNumberQuery = userMapping.phoneNumberQuery
 
   import profile.api._
+
   def getAllUserIdentitiesWithEmail: DBIO[Seq[(UserIdentityDatabase, EmailDatabase)]] = {
     Compiled(for {
       (uIds, email) <- userIdentityQuery join emailQuery on (_.id === _.userIdentity)
